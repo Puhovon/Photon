@@ -6,15 +6,18 @@ namespace DefaultNamespace
     public class Bullet : MonoBehaviour
     {
         [SerializeField] private int damage;
-        
-        private void OnCollisionEnter(Collision other)
+        [SerializeField] private PhotonView pv;
+
+        private void OnTriggerEnter(Collider other)
         {
-            print($"collision with {other.transform.name}");
-            if(other.transform.TryGetComponent(out IDamagable damagable))
+
+            if (other.transform.TryGetComponent(out IDamagable damagable))
             {
+                print("Damagable includes");
                 damagable.TakeDamage(damage);
-                PhotonNetwork.Destroy(gameObject);
             }
+            if (pv.IsMine) PhotonNetwork.Destroy(transform.parent.gameObject);
+
         }
     }
 }

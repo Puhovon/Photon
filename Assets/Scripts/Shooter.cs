@@ -34,6 +34,6 @@ public class Shooter : MonoBehaviourPunCallbacks
     public void Shoot()
     {
         var b = PhotonNetwork.Instantiate(bullet.name, player.position, Quaternion.identity);
-        b.GetComponent<Rigidbody>().AddForce(Vector3.forward * force, ForceMode.Impulse);
+        b.GetComponentInChildren<Rigidbody>().AddForce(Vector3.forward * force, ForceMode.Impulse);
     }
 }

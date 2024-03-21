@@ -1,13 +1,14 @@
-﻿using System;
+﻿using Photon.Pun;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace DefaultNamespace
 {
-    public class HPBar : MonoBehaviour
+    public class HPBar : MonoBehaviourPunCallbacks
     {
         [SerializeField] private Slider hp;
         [SerializeField] private Health health;
+        [SerializeField] private PhotonView photonView;
 
         private void Start()
         {
@@ -18,8 +19,14 @@ namespace DefaultNamespace
 
         private void HPChanged(int currentHp)
         {
-            print(currentHp);
-            hp.value = currentHp;
+            photonView.RPC("ChangeHpBarValue", RpcTarget.All, currentHp);
+        }
+
+        [PunRPC]
+        public void ChangeHpBarValue(int currentHealth)
+        {
+            print(currentHealth);
+            hp.value = currentHealth;
         }
     }
 }
